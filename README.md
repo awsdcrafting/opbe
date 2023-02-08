@@ -48,8 +48,21 @@ Also, memory and CPU usage are O(1), this means they are CONSTANT and independen
 * automatic Bcmath detect and usage if needed
 
 ---
+## Quick start (RUN IN DOCKER)
+1. Make sure you have Docker installed.
+2. Open a terminal and navigate to the directory where the Dockerfile is
+3. Run the following command to **build the Docker image**:
+    ```bash
+     docker built -t opbe-php-app
+    ```  
+   
+4. after the image is built, you can run it with following command:
+    ```bash
+     docker run -p 80:80 -d opbe-php-app
+    ```
+5. You should now be able to access the PHP application by visiting http://localhost in a web browser.
 
-## Quick start (installation)
+### Quick start (game version?)
 This seems so cool! How can I use it?  
 You can check in [implementations directory](https://github.com/jstar88/opbe/tree/master/implementations) for your game version,
 read the installation.txt file.  
