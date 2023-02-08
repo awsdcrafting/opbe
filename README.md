@@ -50,8 +50,8 @@ Also, memory and CPU usage are O(1), this means they are CONSTANT and independen
 ---
 ## Quick start (RUN IN DOCKER)
 1. Make sure you have Docker installed.
-2. Open a terminal and navigate to the directory where the Dockerfile is
-3. Run the following command to **build the Docker image**:
+2. Open a terminal and navigate to the directory where the Dockerfile is (Current directory)
+3. Run the following command to build the Docker image:
     ```bash
      docker built -t opbe-php-app
     ```  
