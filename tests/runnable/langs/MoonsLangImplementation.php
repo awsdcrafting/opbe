@@ -5,7 +5,8 @@ class MoonsLangImplementation implements Lang
     private $lang;
     public function __construct()
     {
-        require (OPBEPATH . "tests/runnable/langs/2Moons_1-3-5.php");
+    #    require (OPBEPATH . "tests/runnable/langs/2Moons_1-3-5.php");
+       require (OPBEPATH . "tests/runnable/langs/SCA.php");
         $this->lang = $lang;
     }
 
