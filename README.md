@@ -53,12 +53,12 @@ Also, memory and CPU usage are O(1), this means they are CONSTANT and independen
 2. Open a terminal and navigate to the directory where the Dockerfile is (Current directory)
 3. Run the following command to build the Docker image:
     ```bash
-     docker built -t opbe-php-app
+     docker build -t opbe-php-app .
     ```  
    
 4. after the image is built, you can run it with following command:
     ```bash
-     docker run -p 80:80 -d opbe-php-app
+     docker run -p 80:80 opbe-php-app
     ```
 5. You should now be able to access the PHP application by visiting http://localhost in a web browser.
 
