@@ -19,5 +19,9 @@ RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
 # Expose port 80 to allow connections to the web server
 EXPOSE 80
 
+# give write permission to php - NOT SAFE DO NOT USE IN PRODUCTION
+RUN chown -R www-data:www-data /var/www/html
+USER www-data
+
 # Start the Apache web server
 CMD ["apache2-foreground"]
