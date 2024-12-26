@@ -19,6 +19,7 @@ class Fleet //extends IterableUtil
     private armour_tech = 0;
     private name;
     public constructor(id: number, shipTypes: Iterable<ShipType> | null = null, weapons_tech = null, shields_tech = null, armour_tech = null, name = "") {
+        
         this.id = id;
         this.count = 0;
         this.name = name;
@@ -32,7 +33,7 @@ class Fleet //extends IterableUtil
         }
     }
 
-    [Symbol.iterator] =  () => {
+    [Symbol.iterator] = () => {
         return this.shipTypes[Symbol.iterator]();
     }
 
@@ -83,6 +84,7 @@ class Fleet //extends IterableUtil
             return;
         }
         this.shipTypes.get(id)!!.decrement(count);
+        
         this.count -= count;
         if (this.shipTypes.get(id)!!.getCount() <= 0) {
             this.shipTypes.delete(id)
@@ -103,6 +105,7 @@ class Fleet //extends IterableUtil
         return this.shipTypes.get(type)!!.getCount();
     }
     public getTotalCount() {
+        
         return this.count;
     }
     /*
@@ -123,12 +126,12 @@ class Fleet //extends IterableUtil
         const physicShots: Map<number, PhysicShot[]> = new Map();
         //doesn't matter who shot first, but who receive first the damage
         for (let fire of fires) {
-            const tmp = new Map();
+            const tmp: Map<number, number> = new Map();
             for (let [defenderId, defenderShipType] of this.shipTypes) {
                 const attackerId = fire.getId();
                 const xs = fire.getShotsFiredByAllToDefenderType(defenderShipType)
                 const ps = defenderShipType.inflictDamage(fire.getPower(), Math.floor(xs))
-                tmp.get(defenderId)!![xs % 1] //extract decimal portion
+                tmp.set(defenderId, xs % 1) //extract decimal portion
                 if (ps) {
                     if (!physicShots.has(defenderId)) {
                         physicShots.set(defenderId, [])
@@ -163,6 +166,7 @@ class Fleet //extends IterableUtil
         const shipsCleaners = new Map();
         for (let [id, shipType] of this.shipTypes) {
             const sc = shipType.cleanShips();
+            
             this.count -= sc.getExplodedShips();
             if (shipType.isEmpty()) {
                 this.shipTypes.delete(id)
@@ -193,8 +197,9 @@ class Fleet //extends IterableUtil
     public getArmourTech() {
         return this.armour_tech;
     }
-    public cloneMe() {
-        return Object.getPrototypeOf(this).constructor(this.id, this.shipTypes.values(), this.weapons_tech, this.shields_tech, this.armour_tech);
+    public cloneMe(): Fleet {
+        const tmp: Fleet = Reflect.construct(Object.getPrototypeOf(this).constructor, [this.id, this.shipTypes.values(), this.weapons_tech, this.shields_tech, this.armour_tech]);
+        return tmp
     }
 }
 

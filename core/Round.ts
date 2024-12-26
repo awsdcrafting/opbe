@@ -50,6 +50,8 @@ class Round {
      * @return
      */
     public startRound() {
+        
+        
         //echo '--- Round ' . this.number . ' ---<br><br>';
         //---------------------- Generating the fire -------------------------------//
         //note that we don't need to check the order of fire, because we will order when splitting the fire later
@@ -60,7 +62,9 @@ class Round {
         for (const [playerId, player] of this.attackers) {
             for (const [fleetID, fleet] of player) {
                 for (const [shipTypeId, shipType] of fleet) {
-                    this.fire_attackers.add(new Fire(shipType, defendersMerged))
+                    const fire = new Fire(shipType, defendersMerged);
+                    
+                    this.fire_attackers.add(fire)
                 }
             }
         }
@@ -69,7 +73,9 @@ class Round {
         for (const [playerId, player] of this.defenders) {
             for (const [fleetID, fleet] of player) {
                 for (const [shipTypeId, shipType] of fleet) {
-                    this.fire_defenders.add(new Fire(shipType, attackersMerged))
+                    const fire = new Fire(shipType, attackersMerged)
+                    
+                    this.fire_defenders.add(fire)
                 }
             }
         }
@@ -81,16 +87,20 @@ class Round {
         //echo "***** firing to attackers *****<br>";
         this.physicShotsToAttachers = this.attackers.inflictDamage(this.fire_defenders);
         //--------------------------------------------------------------------------//
+        
+        
 
         //------------------------- Cleaning ships ---------------------------------//
         this.defenderShipsCleaner = this.defenders.cleanShips();
         this.attackerShipsCleaner = this.attackers.cleanShips();
         //--------------------------------------------------------------------------//
+        
 
         //------------------------- Repairing shields ------------------------------//
         this.defenders.repairShields();
         this.attackers.repairShields();
         //--------------------------------------------------------------------------//
+        
     }
 
     /**
@@ -202,15 +212,18 @@ class Round {
     public getDefendersFireCount() {
         return this.getDefendersFire().getAttackerTotalShots();
     }
-    public getAttachersAssorbedDamage() {
+    public getAttackersAbsorbedDamage() {
         const playerGroupPS = this.getDefendersPhysicShots();
-        return this.getPlayersAssorbedDamage(playerGroupPS);
+        return this.getPlayersAbsorbedDamage(playerGroupPS);
     }
-    public getDefendersAssorbedDamage() {
+    public getDefendersAbsorbedDamage() {
         const playerGroupPS = this.getAttackersPhysicShots();
-        return this.getPlayersAssorbedDamage(playerGroupPS);
+        return this.getPlayersAbsorbedDamage(playerGroupPS);
     }
-    private getPlayersAssorbedDamage(playerGroupPS: Map<number, Map<number, Map<number, PhysicShot[]>>>) {
+    private getPlayersAbsorbedDamage(playerGroupPS: Map<number, Map<number, Map<number, PhysicShot[]>>>) {
+        if (!playerGroupPS) {
+            return 0;
+        }
         let ass = 0;
         for (let [_, playerPs] of playerGroupPS) {
             for (let [_, fleetPS] of playerPs) {

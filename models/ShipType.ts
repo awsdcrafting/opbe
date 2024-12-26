@@ -19,12 +19,44 @@ class ShipType extends Type {
     private singleLife: number;
     private singlePower: number;
 
-    private fullShield!: number;
-    private fullLife!: number;
-    private fullPower!: number;
+    private fullShield: number = 0;
+    //private fullLife: number = 0;
+    private fullPower: number = 0;
 
-    protected currentShield!: number;
-    protected currentLife!: number;
+    protected currentShield: number = 0;
+    //protected currentLife: number = 0;
+    protected _currentLife: number = 0;
+    protected get currentLife() {
+        return this._currentLife
+    }
+    protected set currentLife(value) {
+        
+        
+        this._currentLife = value
+        if (this._fullLife != this.getCount() * this.singleLife) {
+            
+            throw new Error("Invalid max life")
+        }
+        if (this._currentLife != this._fullLife) {
+            
+            
+            
+        }
+    }
+
+    private _fullLife = 0
+    protected get fullLife() {
+        return this._fullLife
+    }
+    protected set fullLife(value) {
+        this._fullLife = value
+        if (this._fullLife != this.getCount() * this.singleLife) {
+            
+            throw new Error("Invalid max life")
+        }
+    }
+
+
 
     private weapons_tech: number = 0;
     private shields_tech: number = 0;
@@ -68,6 +100,10 @@ class ShipType extends Type {
         this.setWeaponsTech(weapons_tech);
         this.setArmourTech(armour_tech);
         this.setShieldsTech(shields_tech);
+        if (this._fullLife != this.getCount() * this.singleLife) {
+            
+            throw new Error("Invalid max life after constructor")
+        }
     }
 
 
@@ -121,6 +157,7 @@ class ShipType extends Type {
     public setArmourTech(level: number | string | null) {
         if (!level || !Number(level))
             return;
+        
         level = Number(level);
         const diff = level - this.armour_tech;
         if (diff < 0)
@@ -130,6 +167,7 @@ class ShipType extends Type {
         this.singleLife *= incr;
         this.fullLife *= incr;
         this.currentLife *= incr;
+        
     }
 
 
@@ -143,6 +181,7 @@ class ShipType extends Type {
      */
     public increment(number: number, newLife: number | null = null, newShield: number | null = null) {
         super.increment(number);
+        
         if (newLife == null) {
             newLife = this.singleLife;
         }
@@ -155,6 +194,11 @@ class ShipType extends Type {
 
         this.currentLife += newLife!! * number;
         this.currentShield += newShield!! * number;
+        
+        if (this._fullLife != this.getCount() * this.singleLife) {
+            
+            throw new Error("Invalid max life after increment")
+        }
     }
 
 
@@ -168,6 +212,7 @@ class ShipType extends Type {
      */
     public decrement(number: number, remainLife: number | null = null, remainShield: number | null = null) {
         super.decrement(number);
+        
         if (remainLife == null) {
             remainLife = this.singleLife;
         }
@@ -180,6 +225,7 @@ class ShipType extends Type {
 
         this.currentLife -= remainLife!! * number;
         this.currentShield -= remainShield!! * number;
+        
     }
 
 
@@ -353,6 +399,10 @@ class ShipType extends Type {
         if (shotsToThisShipType < 0)
             throw new Error("Negative amount of shotsToThisShipType!");
 
+        
+
+        
+
         //log_var('Defender single hull', this.singleLife);
         //log_var('Defender count', this.getCount());
         //log_var('currentShield before', this.currentShield);
@@ -372,6 +422,7 @@ class ShipType extends Type {
             //log_comment('fixing double number currentlife');
             this.currentLife = 0;
         }
+        
         //log_var('currentShield after', this.currentShield);
         //log_var('currentLife after', this.currentLife);
         this.lastShipHit += ps.getHitShips();
@@ -459,12 +510,19 @@ class ShipType extends Type {
      * 
      * @return ShipType
      */
-    public cloneMe() {
-        const tmp = Object.getPrototypeOf(this).constructor(this.getId(), this.getCount(), this.rf, this.originalShield, this.cost, this.originalPower, this.weapons_tech, this.shields_tech, this.armour_tech)
+    public cloneMe(): ShipType {
+        if (this._fullLife != this.getCount() * this.singleLife) {
+            
+            throw new Error("Invalid max life while cloning")
+        }
+        
+        const tmp: ShipType = Reflect.construct(Object.getPrototypeOf(this).constructor, [this.getId(), this.getCount(), this.rf, this.originalShield, this.cost, this.originalPower, this.weapons_tech, this.shields_tech, this.armour_tech])
         tmp.currentShield = this.currentShield;
         tmp.currentLife = this.currentLife;
         tmp.lastShots = this.lastShots;
         tmp.lastShipHit = this.lastShipHit;
+        
+        
         return tmp;
     }
 }

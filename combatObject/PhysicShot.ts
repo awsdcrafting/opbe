@@ -102,9 +102,13 @@ class PhysicShot
      */
     public start()
     {     
+        
         this.bounce();
-        this.assorb();
+        
+        this.absorb();
+        
         this.inflict();
+        
     }
     
     
@@ -136,7 +140,7 @@ class PhysicShot
      * @param int cellsDestroyedInOneShot
      * @return null
      */
-    private assorb()
+    private absorb()
     {
         const count = this.count;
         const damage = this.damage;

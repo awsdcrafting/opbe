@@ -64,6 +64,7 @@ class Player {
         return this.id;
     }
     public decrement(idFleet: number, idShipType: number, count: number) {
+        
         this.fleets.get(idFleet)!!.decrement(idShipType, count);
         if (this.fleets.get(idFleet)!!.isEmpty()) {
             this.fleets.delete(idFleet);
@@ -170,12 +171,15 @@ class Player {
     public getTotalCount() {
         let amount = 0;
         for (let [id, fleet] of this.fleets) {
+            
+            
+            
             amount += fleet.getTotalCount();
         }
         return amount;
 
     }
-    public cloneMe() {
+    public cloneMe(): Player {
         return new Player(this.id, this.fleets.values(), this.weapons_tech, this.shields_tech, this.armour_tech, this.name);
     }
 }

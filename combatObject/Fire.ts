@@ -178,7 +178,7 @@ class Fire {
      * @return int
      */
     private getNormalPower() {
-        return this.attackerShipType.getCount() * this.attackerShipType.getPower();
+        return this.attackerShipType.getCurrentPower();
     }
     //------- INCOMING FIRE------------
 
