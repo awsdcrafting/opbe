@@ -153,5 +153,5 @@ combatObject/*.js
 constants/*.js
 core/*.js
 models/*.js
-ts-tests/*.js
+ts-tests/**/*.js
 utils/*.js

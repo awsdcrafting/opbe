@@ -41,7 +41,6 @@ class ShipsCleaner
      */
     public start()
     {
-        
         /*** calculating probability to explode ***/
 
         //the mean probably to explode based on damage
@@ -54,7 +53,6 @@ class ShipsCleaner
         {
             throw new Error("Negative prob");
         }
-        
         //if most of ships are hitten,then we can apply the more realistic way
         let probToExplode;
         if (USE_BIEXPLOSION_SYSTEM && this.lastShipHit >= this.fighters.getCount() / PROB_TO_REAL_MAGIC)
@@ -72,11 +70,9 @@ class ShipsCleaner
         //otherwise  statistically:
         else
         {
-            
             //log_comment('lastShipHit smaller than getCount()/magic');
             probToExplode = prob * (1 - MIN_PROB_TO_EXPLODE);
         }
-        
 
 
         /*** calculating the amount of exploded ships ***/
@@ -87,20 +83,17 @@ class ShipsCleaner
             theoreticExploded = Math.min(theoreticExploded, this.lastShots);
         }
         this.exploded = theoreticExploded; //bounded by the total shots fired to simulate a real combat :)
-        
 
 
         /*** calculating the life of destroyed ships ***/
 
         //this.remainLife = this.exploded * (1 - prob) * (this.fighters.getCurrentLife() / this.fighters.getCount());
         this.remainLife = this.fighters.getCurrentLife() / this.fighters.getCount();
-        
-        
-        
-        
-        
-        
-        
+        //log_var('prob',prob);
+        //log_var('probToExplode',probToExplode);
+        //log_var('teoricExploded',theoreticExploded);
+        //log_var('exploded',this.exploded);
+        //log_var('remainLife',this.remainLife);
     }
     /**
      * ShipsCleaner::getExplodeShips()

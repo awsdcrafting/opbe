@@ -102,13 +102,9 @@ class PhysicShot
      */
     public start()
     {     
-        
         this.bounce();
-        
         this.absorb();
-        
         this.inflict();
-        
     }
     
     

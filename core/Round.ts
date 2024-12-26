@@ -50,8 +50,6 @@ class Round {
      * @return
      */
     public startRound() {
-        
-        
         //echo '--- Round ' . this.number . ' ---<br><br>';
         //---------------------- Generating the fire -------------------------------//
         //note that we don't need to check the order of fire, because we will order when splitting the fire later
@@ -62,9 +60,7 @@ class Round {
         for (const [playerId, player] of this.attackers) {
             for (const [fleetID, fleet] of player) {
                 for (const [shipTypeId, shipType] of fleet) {
-                    const fire = new Fire(shipType, defendersMerged);
-                    
-                    this.fire_attackers.add(fire)
+                    this.fire_attackers.add(new Fire(shipType, defendersMerged))
                 }
             }
         }
@@ -73,9 +69,7 @@ class Round {
         for (const [playerId, player] of this.defenders) {
             for (const [fleetID, fleet] of player) {
                 for (const [shipTypeId, shipType] of fleet) {
-                    const fire = new Fire(shipType, attackersMerged)
-                    
-                    this.fire_defenders.add(fire)
+                    this.fire_defenders.add(new Fire(shipType, attackersMerged))
                 }
             }
         }
@@ -87,20 +81,16 @@ class Round {
         //echo "***** firing to attackers *****<br>";
         this.physicShotsToAttachers = this.attackers.inflictDamage(this.fire_defenders);
         //--------------------------------------------------------------------------//
-        
-        
 
         //------------------------- Cleaning ships ---------------------------------//
         this.defenderShipsCleaner = this.defenders.cleanShips();
         this.attackerShipsCleaner = this.attackers.cleanShips();
         //--------------------------------------------------------------------------//
-        
 
         //------------------------- Repairing shields ------------------------------//
         this.defenders.repairShields();
         this.attackers.repairShields();
         //--------------------------------------------------------------------------//
-        
     }
 
     /**
