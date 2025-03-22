@@ -343,7 +343,7 @@ class BattleReport {
             }
             const endPlayer = players.getPlayer(idPlayer);
             for (const [idFleet, fleet] of player) {
-                if (!player.existFleet(idFleet)) {
+                if (!endPlayer.existFleet(idFleet)) {
                     endPlayer.addFleet(fleet);
                     continue;
                 }
@@ -355,6 +355,7 @@ class BattleReport {
         }
         return players;
     }
+
     private getPlayerRepaired(playersBefore: PlayerGroup, playersAfter: PlayerGroup): PlayerGroup {
         const lostShips = this.getPlayersLostShips(playersBefore, playersAfter);
         for (const [idPlayer, player] of lostShips) {

@@ -50,10 +50,16 @@ class ShipType extends Type {
      * @param int armour_tech
      * @return
      */
-    public constructor(id: number, count: number, rf: Map<number, number>, shield: number, cost: number[], power: number, weapons_tech: number | null = null, shields_tech: number | null = null, armour_tech: number | null = null) {
+    public constructor(id: number, count: number, rf: Map<number, number> | RfMap, shield: number, cost: number[], power: number, weapons_tech: number | null = null, shields_tech: number | null = null, armour_tech: number | null = null) {
         super(id, 0);
-
-        this.rf = rf;
+        if (rf instanceof Map) {
+            this.rf = rf
+        } else {
+            this.rf = new Map()
+            for (let [k, v] of Object.entries(rf)) {
+                this.rf.set(+k, v)
+            }
+        }
         this.lastShots = 0;
         this.lastShipHit = 0;
         this.cost = cost;
@@ -362,7 +368,8 @@ class ShipType extends Type {
         
 
         
-
+        const pre_life = this.currentLife
+        const pre_shield = this.currentShield
         //log_var('Defender single hull', this.singleLife);
         //log_var('Defender count', this.getCount());
         //log_var('currentShield before', this.currentShield);
@@ -390,13 +397,13 @@ class ShipType extends Type {
         //log_var('lastShots after', this.lastShots);
 
         if (this.currentLife < 0) {
-            throw new Error('Negative currentLife!');
+            throw new Error('Negative currentLife! ' + this.currentLife + "/" + (-EPSILON) + "|" + pre_life + " " + damage);
         }
         if (this.currentShield < 0) {
-            throw new Error('Negative currentShield!');
+            throw new Error('Negative currentShield!' + this.currentShield+ "/" + (-EPSILON) + "|" + pre_shield + " " + damage);
         }
         if (this.lastShipHit < 0) {
-            throw new Error('Negative lastShipHit!');
+            throw new Error('Negative lastShipHit!' + this.lastShipHit);
         }
         return ps; //for web
     }

@@ -10,7 +10,7 @@ export const BATTLE_DRAW = 0;
 export const SHIELD_CELLS = 100; //how many cells a ship's shield should contain. Carefull to edit: more cells = better accuracy but less bounces in some cases.
 export const USE_BIEXPLOSION_SYSTEM = true; // enable below system value
 export const PROB_TO_REAL_MAGIC = 2; //value used to adapt probability theory to critical cases.
-export const EPSILON = 1.2e-6;
+export const EPSILON = 1.2e-5; //tolerance to floating point errors
 
 /*** Battle constants, default as Ogame ***/
 export const ROUNDS = 6; //how many rounds a battle have, no limits.

@@ -26,7 +26,7 @@ abstract class Test {
     let attacker_wins = 0
     let draws = 0
     let defender_wins = 0
-
+    let report = null;
     for (let i = 0;i < times;i++) {
       if (global.gc) {
         global.gc();
@@ -36,7 +36,7 @@ abstract class Test {
 
       this.setup();
       const setup_diff_time = process.hrtime(start_time);
-      const report = this.test();
+      report = this.test();
 
       const diff_time = process.hrtime(start_time);
       const mem_after = process.memoryUsage();
